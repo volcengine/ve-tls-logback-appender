@@ -1,0 +1,66 @@
+<configuration>
+    <!--为了防止进程退出时，内存中的数据丢失，请加上此选项-->
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
+    <!-- 配置日志输出目的地为TLS日志服务的appender -->
+    <appender name="TLSLogbackAppender" class="com.volcengine.service.tls.logback.LogbackAppender">
+        <!-- 必选项：TLS日志服务基本配置 -->
+        <endpoint></endpoint>
+        <region></region>
+        <accessKeyId></accessKeyId>
+        <accessKeySecret></accessKeySecret>
+        <!-- 必选项：TLS日志项目/主题配置 -->
+        <projectID></projectID>
+        <topicID></topicID>
+        <!-- 可选项：日志数据源配置 -->
+        <source></source>
+        <filename></filename>
+
+        <!-- 可选项：TLS Java Producer自定义配置 -->
+        <totalSizeInBytes>104857600</totalSizeInBytes>
+        <maxThreadCount>50</maxThreadCount>
+        <maxBlockMs>60000</maxBlockMs>
+        <maxBatchSizeBytes>524288</maxBatchSizeBytes>
+        <maxBatchCount>4096</maxBatchCount>
+        <lingerMs>2000</lingerMs>
+        <retryCount>2</retryCount>
+        <maxReservedAttempts>3</maxReservedAttempts>
+
+        <!-- 可选项：通过配置encoder pattern自定义日志格式 -->
+        <encoder>
+            <pattern>%d %-5level [%thread] %logger{0}: %msg</pattern>
+        </encoder>
+
+        <!-- 可选项：设置时间格式 -->
+        <timeFormat>yyyy-MM-dd'T'HH:mmZ</timeFormat>
+        <!-- 可选项：设置时区 -->
+        <timeZone>Asia/Shanghai</timeZone>
+
+        <!-- 可选项：配置LevelFilter -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 可选项：配置mdcFields -->
+        <mdcFields>THREAD_ID,MDC_KEY</mdcFields>
+    </appender>
+
+    <!-- 配置日志输出目的地为Stdout的appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg %X{THREAD_ID} %n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 可用来获取StatusManager中的状态 -->
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+    <!-- 解决debug模式下循环发送的问题 -->
+    <logger name="org.apache.http.impl.conn.Wire" level="WARN" />
+
+    <root>
+        <level value="DEBUG"/>
+        <appender-ref ref="TLSLogbackAppender"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
