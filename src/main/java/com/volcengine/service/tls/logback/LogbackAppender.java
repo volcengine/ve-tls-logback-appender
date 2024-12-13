@@ -355,7 +355,7 @@ public class LogbackAppender<E> extends UnsynchronizedAppenderBase<E> {
         } else {
             Optional.ofNullable(mdcFields).ifPresent(f -> event.getMDCPropertyMap().entrySet().stream()
                     .filter(v -> Arrays.stream(f.split(",")).anyMatch(i -> i.equals(v.getKey())))
-                    .forEach(map -> logItem.addContent(map.getKey(), map.getValue()))
+                    .forEach(map -> logItem.addContent(map.getKey(), map.getValue() == null ? "" : map.getValue()))
             );
         }
 
