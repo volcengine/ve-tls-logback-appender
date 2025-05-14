@@ -25,6 +25,7 @@
         <lingerMs>2000</lingerMs>
         <retryCount>2</retryCount>
         <maxReservedAttempts>3</maxReservedAttempts>
+        <maxThrowable>2048</maxThrowable>
 
         <!-- 可选项：通过配置encoder pattern自定义日志格式 -->
         <encoder>

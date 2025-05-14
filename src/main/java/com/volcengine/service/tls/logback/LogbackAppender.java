@@ -229,6 +229,14 @@ public class LogbackAppender<E> extends UnsynchronizedAppenderBase<E> {
         this.mdcFields = mdcFields;
     }
 
+    public int getMaxThrowable() {
+        return maxThrowable;
+    }
+
+    public void setMaxThrowable(int maxThrowable) {
+        this.maxThrowable = maxThrowable;
+    }
+
     @Override
     public void start() {
         try {
